@@ -16,10 +16,16 @@ function getMonthName(month) {
 var bodyparser = require('body-parser')
 app.use(bodyparser.urlencoded({extended: false}))
 */
+app.get('/', (req, res)=>{
+	res.send("This timestamp API was created by Ignacio Rasche, add /'unix timestamp' or /'natural language time' to the url to get the JSON with the processed data")
+})
+
+app.get('/favicon.ico', (req, res)=>{})
+
 app.get('/:data', function (req, res) {
   var data = parseInt(req.params.data)
   var date = new Date(data*1000);
-  var isTS = date.getTime() > 0
+  var isTS = date.getDate() > 0
   var obj = {
   	"unix": null,
   	"natural": null
@@ -34,13 +40,18 @@ app.get('/:data', function (req, res) {
   	data = req.params.data
   	console.log(data)
   	dat = new Date (Date.parse(data))
-  	var isNT = date.getTime() > 0
+  	console.log(dat)
+  	var isNT = dat.getDate() > 0
   	if (isNT){
-  	obj.unix = dat.getTime()
-  	obj.natural = naturalize(dat)
-  }
+  		obj.unix = dat.getTime()
+  		obj.natural = naturalize(dat)
+  		console.log("IT'S A VALID DATE")
+  
+  	}
+
 }
-  res.send(obj)
+  	res.send(obj)
+ 
 });
 
 function naturalize (date){
